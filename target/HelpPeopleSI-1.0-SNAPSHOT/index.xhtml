@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+<!--        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item i, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+        <script type="text/javascript">
+
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+
+        </script>   -->
+    </ui:define>
+
+    <ui:define name="title">Data</ui:define>
+
+    <ui:define name="content">
+        <h:form id="PrincipalForm">
+            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+            <p:menubar style="border: none; background: none;">
+
+                <p:menuitem style="text-align: center">
+                    <div>
+                        <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle">
+                            <p:graphicImage 
+                                url="https://c8.alamy.com/compes/kbdjeh/linea-manos-con-el-simbolo-de-la-medicina-del-corazon-para-ayudar-a-la-gente-kbdjeh.jpg"/>
+                        </p:avatar>
+                    </div>
+                    <b>HelpPeople S.I</b>
+                </p:menuitem>
+
+                <p:menuitem  value="Ubicacion" icon="pi pi-fw pi-map-marker"/>
+
+                <p:menuitem value="Acerca de" icon="pi pi-fw pi-info-circle"/>
+
+                <f:facet name="options">
+                    <div class="ui-input-icon-left p-mr-2">
+                        <i class="pi pi-fw pi-search" />
+                        <p:inputText placeholder="Search"/>
+                    </div>
+                    <p:commandButton action="#{helpPController.iniciarSesion()}" style="margin: 35px" 
+                                     value="Iniciar sesión" icon="pi pi-fw pi-sign-in"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
