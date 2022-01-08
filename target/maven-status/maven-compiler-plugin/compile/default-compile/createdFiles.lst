@@ -1,10 +1,12 @@
 com\tesis\controller\LoginController.class
+com\tesis\controller\RegisterController.class
 com\tesis\entity\Post.class
 com\tesis\entity\Mensaje.class
 com\tesis\entity\Usuario.class
 com\tesis\entity\DetPost.class
 com\tesis\entity\Chat.class
 com\tesis\entity\DetUsuario.class
+com\tesis\facade\PostFacade.class
 com\tesis\controller\HelpPController.class
 com\tesis\facade\UsuarioFacade.class
 com\tesis\facade\Conexion.class

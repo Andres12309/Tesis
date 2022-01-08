@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template1.xhtml">
+
+    <ui:define name="head">
+<!--        <style type="text/css">
+            .borderGrid.ui-panelgrid>*>tr,
+            .borderGrid.ui-panelgrid .ui-panelgrid-cell{
+                border: none;
+            }
+        </style>-->
+    </ui:define>
+
+    <ui:define name="regGeneral">
+        <div style="position: absolute; left: 50%; top: 50%;transform: translate(-50%,-50%); height: 100%">
+
+            <h:form id="RegGeneralForm">
+
+                <div style="text-align: center">
+                    <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle">
+                        <p:graphicImage 
+                            url="https://c8.alamy.com/compes/kbdjeh/linea-manos-con-el-simbolo-de-la-medicina-del-corazon-para-ayudar-a-la-gente-kbdjeh.jpg"/>
+                    </p:avatar>
+                </div>
+                <div style="text-align: center">
+                    <b>HelpPeople S.I</b>
+                </div>
+                <p:panelGrid id="panelRegGeneral" columns="2" styleClass="ui-noborder">
+                    <p:outputLabel for="txtNombres" value="Nombres" style="border: none"/>
+                    <p:inputText id="txtNombres" required="true" value="#{registerController.usuario.nombres}" requiredMessage="Campo nombres requerido"/>
+
+                    <p:outputLabel for="txtApellidos" value="Apellidos"/>
+                    <p:inputText id="txtApellidos" required="true" value="#{registerController.usuario.apellidos}" requiredMessage="Campo apellidos requerido"/>
+
+                    <p:outputLabel for="txtUsuario" value="Usuario"/>
+                    <p:inputText id="txtUsuario" required="true" value="#{registerController.usuario.usuario}" requiredMessage="Campo usuario requerido"/>
+
+                    <p:outputLabel for="txtCorreo" value="Correo"/>
+                    <p:inputText id="txtCorreo" required="true" value="#{registerController.usuario.correo}" requiredMessage="Campo correo requerido"/>
+
+                    <p:outputLabel for="txtCedula" value="Cedula"/>
+                    <p:inputText id="txtCedula" required="true" value="#{registerController.usuario.cedula}" requiredMessage="Campo cedula requerido"/>
+
+                    <p:outputLabel for="txtTelefono" value="Telefono"/>
+                    <p:inputText id="txtTelefono" required="true" value="#{registerController.usuario.telefono}" requiredMessage="Campo telefono requerido"/>
+
+                    <p:outputLabel for="txtProvincia" value="Provincia"/>
+                    <p:inputText id="txtProvincia" required="true" value="#{registerController.usuario.provincia}" requiredMessage="Campo provincia requerido"/>
+
+                    <p:outputLabel for="txtCanton" value="Cantón"/>
+                    <p:inputText id="txtCanton" required="true" value="#{registerController.usuario.canton}" requiredMessage="Campo canton requerido"/>
+
+                    <p:outputLabel for="txtClave" value="Contraseña"/>
+                    <p:password id="txtClave" required="true" value="#{registerController.usuario.clave}" 
+                                match="txtConfClave" feedback="true" promptLabel="Ingrese una clave" 
+                                validatorMessage="Las claves no coinciden"
+                                weakLabel="Debil" strongLabel="Fuerte" goodLabel="Bueno"
+                                requiredMessage="Campo clave requerido"/>
+
+                    <p:outputLabel for="txtConfClave" value="Confirmar contraseña"/>
+                    <p:password id="txtConfClave" required="true" requiredMessage="Campo confirmar calve requerido"/>
+
+                    <p:outputLabel for="txtTipoUsuario" value="Tipo de registro"/>
+                    <p:selectOneMenu  id="txtTipoUsuario" value="#{registerController.usuario.rol}" style="width:125px" required="true" requiredMessage="Porfavor elija el tipo de registro que desea realizar">
+                        <f:selectItem id="Seleccione" itemLabel="Seleccione..." itemValue="" />
+                        <f:selectItem id="Solicitante" itemLabel="Solicitante" itemValue="solicitante" 
+                                      itemDescription="Este tipo de registro le permitira solicitar apoyo, tanto en medicamentos o atención medica, esto sera atendido por los diferentes colaboradores dispuestos a ayudar." />
+                        <!--<p:tooltip for="Solicitante" value="Enter your username"  showEffect="clip" hideEffect="fold"/>-->
+                        <f:selectItem id="Colaborador"  itemLabel="Colaborador" itemValue="colaborador" 
+                                      itemDescription="Este tipo de registro le permitira brindar su apoyo de corazón, a diferentes usuarios solicitantes que esten requiriendo atencion medica o medicamentos."/>
+
+
+                        <!--                    <f:facet name="footer">
+                                                <p:separator />
+                                                <p:tree value="#{registerController.tipoUsuario}" var="node">
+                                                    <p:treeNode >
+                                                        <h:inputTextarea value="#{node}" />
+                                                    </p:treeNode>
+                                                </p:tree>
+                                                <p:tree value="#{registerController.tipoUsuario}" var="node">
+                                                    <p:treeNode>
+                                                        <h:outputText value="#{node}" />
+                                                    </p:treeNode>
+                                                </p:tree>
+                                            </f:facet>-->
+                    </p:selectOneMenu>
+
+                    <h:column/>
+                    <p:commandButton update="RegGeneralForm:panelRegGeneral,growl" value="Registrar" icon="pi pi-fw pi-arrow-circle-right" 
+                                      actionListener="#{registerController.registrarUsuario()}"/>
+                </p:panelGrid>
+            </h:form>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

@@ -5,10 +5,15 @@
  */
 package com.tesis.controller;
 
+import com.tesis.entity.Post;
 import com.tesis.entity.Usuario;
 import com.tesis.facade.Conexion;
-import com.tesis.facade.UsuarioFacade;
+import com.tesis.facade.PostFacade;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +29,8 @@ import javax.faces.context.FacesContext;
 public class HelpPController implements Serializable {
 
     private Usuario usuario;
+    private List<Post> listPost;
+    private Post post;
 
     @PostConstruct
     public void init() {
@@ -33,8 +40,58 @@ public class HelpPController implements Serializable {
 //        con.closeConnection();
     }
 
-    public String iniciarSesion() {
-        
-        return "/login?faces-redirect=true";
+    public List<Post> getListPost() {
+        return listPost;
+    }
+
+    public void setListPost(List<Post> listPost) {
+        this.listPost = listPost;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public void iniciarSesion() {
+//        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "login.xhtml");
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(HelpPController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void registrase() {
+//        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "login.xhtml");
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("registroUsuario.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(HelpPController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void crearPost(){
+        try {
+            Conexion con = new Conexion(false);
+            PostFacade postfacade = new PostFacade(con);
+
+            if (!postfacade.crearPost(post)) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Error al momento de registrar");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Registro completado correctamente");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("");
+            }
+
+            con.closeConnection();
+
+        } catch (Exception e) {
+            //
+        }
     }
 }

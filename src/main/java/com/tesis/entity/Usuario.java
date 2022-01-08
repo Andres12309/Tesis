@@ -12,12 +12,14 @@ public class Usuario {
     private String apellidos;
     private String usuario;
     private String clave;
+    private String confirmarClave;
     private String correo;
     private String cedula;
     private String telefono;
     private String provincia;
     private String canton;
     private String estado;
+    private String rol;
 
     public Integer getId() {
         return id;
@@ -57,6 +59,14 @@ public class Usuario {
 
     public void setClave(String clave) {
         this.clave = clave;
+    }
+
+    public String getConfirmarClave() {
+        return confirmarClave;
+    }
+
+    public void setConfirmarClave(String confirmarClave) {
+        this.confirmarClave = confirmarClave;
     }
 
     public String getCorreo() {
@@ -107,5 +117,12 @@ public class Usuario {
         this.estado = estado;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
     
 }

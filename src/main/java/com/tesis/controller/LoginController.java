@@ -24,10 +24,12 @@ import javax.faces.context.FacesContext;
 public class LoginController implements Serializable {
 
     private Usuario usuario;
+    String urlIndex;
 
     @PostConstruct
     public void init() {
         usuario = new Usuario();
+        urlIndex = "index.xhtml";
     }
 
     public Usuario getUsuario() {
@@ -38,7 +40,7 @@ public class LoginController implements Serializable {
         this.usuario = usuario;
     }
 
-    public String iniciarSesion() {
+    public void iniciarSesion() {
         String redirect = null;
         try {
             Conexion con = new Conexion(false);
@@ -47,7 +49,7 @@ public class LoginController implements Serializable {
 
             if (usuario != null) {
 
-                redirect = "/card";
+                FacesContext.getCurrentInstance().getExternalContext().redirect(urlIndex);
                 con.closeConnection();
             } else {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Usuario Ingresado es incorrecto");
@@ -58,8 +60,6 @@ public class LoginController implements Serializable {
         } catch (Exception e) {
             //
         }
-
-        return redirect;
     }
 
 }
