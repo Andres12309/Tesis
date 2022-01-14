@@ -18,7 +18,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -31,13 +33,18 @@ public class HelpPController implements Serializable {
     private Usuario usuario;
     private List<Post> listPost;
     private Post post;
+    private UploadedFile file;
 
     @PostConstruct
     public void init() {
-//        Conexion con = new Conexion(false);
+        Conexion con = new Conexion(false);
 //        UsuarioFacade usuariofacade = new UsuarioFacade(con);
 //        usuario = usuariofacade.iniciarSesion(usuario);
-//        con.closeConnection();
+        PostFacade postFacade = new PostFacade(con);
+        LoginController loginController = new LoginController();
+
+        listPost = postFacade.obtenerPostxUser(getSesion().getUsuario().getId().toString());
+        con.closeConnection();
     }
 
     public List<Post> getListPost() {
@@ -54,6 +61,14 @@ public class HelpPController implements Serializable {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 
     public void iniciarSesion() {
@@ -73,8 +88,8 @@ public class HelpPController implements Serializable {
             Logger.getLogger(HelpPController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void crearPost(){
+
+    public void crearPost() {
         try {
             Conexion con = new Conexion(false);
             PostFacade postfacade = new PostFacade(con);
@@ -93,5 +108,12 @@ public class HelpPController implements Serializable {
         } catch (Exception e) {
             //
         }
+    }
+
+    private LoginController getSesion() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        LoginController loginController = (LoginController) context.getSessionMap().get("loginController");
+        
+        return loginController;
     }
 }

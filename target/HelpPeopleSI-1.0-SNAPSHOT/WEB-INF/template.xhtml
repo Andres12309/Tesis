@@ -13,6 +13,7 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
             <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+            <f:event type="preRenderView" listener="#{loginController.VerificarSesion()}"/>
         </f:facet>
         <title>HelpPeople S.I</title>
         <!--<h:outputScript name="js/nanoscroller.js" library="ultima-layout" />-->

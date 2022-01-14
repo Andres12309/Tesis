@@ -25,11 +25,13 @@ public class LoginController implements Serializable {
 
     private Usuario usuario;
     String urlIndex;
+    String urlLogin;
 
     @PostConstruct
     public void init() {
         usuario = new Usuario();
         urlIndex = "index.xhtml";
+        urlLogin = "login.xhtml";
     }
 
     public Usuario getUsuario() {
@@ -46,10 +48,12 @@ public class LoginController implements Serializable {
             Conexion con = new Conexion(false);
             UsuarioFacade usuariofacade = new UsuarioFacade(con);
             usuario = usuariofacade.iniciarSesion(usuario);
+            
+            FacesContext context = FacesContext.getCurrentInstance();
 
             if (usuario != null) {
-
-                FacesContext.getCurrentInstance().getExternalContext().redirect(urlIndex);
+                context.getExternalContext().getSessionMap().put("loginController", usuario);
+                context.getExternalContext().redirect(urlIndex);
                 con.closeConnection();
             } else {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Usuario Ingresado es incorrecto");
@@ -58,6 +62,19 @@ public class LoginController implements Serializable {
             }
             con.closeConnection();
         } catch (Exception e) {
+            //
+        }
+    }
+    
+    public void VerificarSesion(){
+        try{
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuario us = (Usuario) context.getExternalContext().getSessionMap().get("loginController");
+            
+            if(us == null){
+                context.getExternalContext().redirect(urlLogin);
+            }
+        }catch(Exception e){
             //
         }
     }

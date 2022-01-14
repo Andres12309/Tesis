@@ -6,7 +6,11 @@
 package com.tesis.facade;
 
 import com.tesis.entity.Post;
+import com.tesis.entity.Usuario;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -54,6 +58,63 @@ public class PostFacade {
                 }
             } catch (Exception e) {
                 System.out.println(this.getClass().toString() + ".crearPost " + e.getMessage());
+            }
+        }
+    }
+
+    public List<Post> obtenerPostxUser(String idUser) {
+
+        String query
+                = "SELECT \n"
+                + "     p.id, \n"
+                + "     p.idUser, \n"
+                + "     p.titulo, \n"
+                + "     p.descripcion, \n"
+                + "     p.urlImagen, \n"
+                + "     p.estado \n"
+                + "FROM \n"
+                + "     post p \n"
+                + "where \n"
+                + "     p.usuario = ? \n"
+                + "     and p.estado = A \n";
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+
+            List<Post> listPost = new ArrayList<>();
+            Post post = null;
+            st = con.getConnection().prepareStatement(query);
+            st.setString(1, idUser);
+            rs = st.executeQuery();
+
+            if (rs != null) {
+                while (rs.next()) {
+                    post = new Post();
+                    post.setId(rs.getInt("id"));
+                    post.setIdUser(rs.getInt("idUser"));
+                    post.setTitulo(rs.getString("titulo"));
+                    post.setDescripcion(rs.getString("descripcion"));
+                    post.setUrlImagen(rs.getString("urlImage"));
+                    post.setEstado(rs.getString("estado"));
+                    listPost.add(post);
+                }
+            }
+
+            return listPost;
+        } catch (Exception e) {
+            System.out.println(this.getClass().toString() + ".obtenerPostxUser " + e.getMessage());
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+            } catch (Exception e) {
+                System.out.println(this.getClass().toString() + ".obtenerPostxUser " + e.getMessage());
             }
         }
     }

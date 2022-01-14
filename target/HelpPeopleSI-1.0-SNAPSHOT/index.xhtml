@@ -7,6 +7,28 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="head">
+
+        <style type="text/css">
+            .customDialog {
+                background: aquamarine;
+            }
+            .ui-dialog.customDialog .ui-dialog-content {
+                padding: 0;
+                margin: 20px 10px;
+            }
+            .ui-dialog-titlebar.ui-widget-header.customDialog {
+                background: aquamarine;
+                color: black;
+                box-shadow: none;
+            }
+            
+            span.ui-fileupload-choose > span.ui-icon-plusthick{
+                display: none !important;
+            }
+            span.ui-fileupload-choose > span.ui-button-text{
+                padding-left: 1em !important;
+            }
+        </style>
     </ui:define>
 
     <ui:define name="title">Data</ui:define>
@@ -30,8 +52,8 @@
 
                 <p:menuitem value="Acerca de" icon="pi pi-fw pi-info-circle"/>
 
-                <p:commandButton onclick="PF('dlg1').show();" style="margin: 35px" 
-                                 value="Publicar mi caso" icon="pi pi-fw pi-user-editp"/>
+                <p:menuitem onclick="PF('dlg1').show();" style="margin: 35px" 
+                            value="Publicar mi caso" icon="pi pi-fw pi-star-fill"/>
 
                 <f:facet name="options">
                     <div class="ui-input-icon-left p-mr-2">
@@ -41,155 +63,127 @@
                     <p:commandButton action="#{helpPController.iniciarSesion()}" style="margin: 35px" 
                                      value="Iniciar sesión" icon="pi pi-fw pi-sign-in"/>
                     <p:commandButton action="#{helpPController.registrase()}" style="margin: 35px" 
-                                     value="Registrase" icon="pi pi-fw pi-user-editp"/>
+                                     value="Registrarse" icon="pi pi-fw pi-user-edit"/>
                 </f:facet>
             </p:menubar>
         </h:form>
-        
-        <p:dialog header="Crear Caso" widgetVar="dlg1" modal="true" height="100">
-            <p:commandButton update="RegGeneralForm:panelRegGeneral,growl" value="Registrar" icon="pi pi-fw pi-arrow-circle-right" 
-                             actionListener="#{registerController.registrarUsuario()}"/>
-            <div class="p-grid ui-fluid p-mt-3 floatlabel-demo">
-                <div class="p-col-12 p-md-6">
-                    <div class="p-field">
-                        <span class="ui-float-label">
-                            <input id="j_idt28" name="j_idt28" type="text" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" aria-readonly="false" aria-disabled="false">
-                                <label id="j_idt29" class="ui-outputlabel ui-widget" for="j_idt28">InputText</label>
-                        </span>
+
+        <p:dialog styleClass="customDialog" minWidth="800" header="Crear Caso" widgetVar="dlg1" modal="true">
+
+            <h:form class="ui-outputpanel ui-widget" enctype="multipart/form-data" style=" background: aquamarine">
+                <br/>
+                <div class="p-field">
+                    <span class="ui-float-label">
+                        <p:inputText id="txtTitulo" value="#{helpPController.post.titulo}" required="true" style="border: none; text-transform:uppercase; font-size: 20px; font-style: italic; width: 500px; background: aquamarine; color: purple"/>
+                        <p:outputLabel for="@previous" value="¿Puedes ponerle un distintivo a tu solicitud?" style=" color: grey; font-size: 20px"/>
+                    </span>
+                </div>
+                <br/>
+                <div class="p-field">
+                    <span class="ui-float-label">
+                        <p:inputTextarea id="txtDescrip" value="#{helpPController.post.descripcion}" required="true" style=" border: none;font-size: 20px; font-style: italic; width: 500px; background: aquamarine;; color: purple"/>
+                        <p:outputLabel for="@previous" value="Relata tu caso para que los colaboradores simpatizen contigo." style=" color: grey; font-size: 20px" />
+                    </span>
+                </div>
+                <div style=" text-align: center">
+                    <div>
+                        <p:outputLabel value="Agrega a tu publicacion" style="margin-bottom: 10px ;font-weight: bold; color: grey; font-size: 20px" />
                     </div>
-                    <div class="p-field">
-                        <span class="ui-float-label ui-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input id="j_idt31" name="j_idt31" type="text" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ui-state-hover" role="textbox" aria-readonly="false" aria-disabled="false">
-                                <label id="j_idt32" class="ui-outputlabel ui-widget p-ml-4" for="j_idt31">Left Icon</label>
-                        </span>
+                    <div>
+                        <p:fileUpload id="avatarImg"  chooseIcon="pi pi-images" label="#{none}"
+                                      style=" border: none; background-color: aquamarine" listener="#{fileUploadView.handleFileUpload}" 
+                                      mode="advanced" dragDropSupport="false"
+                                      multiple="true" sizeLimit="100000" fileLimit="3"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                        <p:tooltip for="avatarImg" value="Imagenes/videos" showEffect="clip" position="top" hideEffect="fold" />
+
+                        <p:fileUpload id="avatarFile" chooseIcon="pi pi-fw pi-file" label="#{none}" skinSimple="true"
+                                      style=" width: 50px" listener="#{fileUploadView.handleFileUpload}" 
+                                      mode="simple" dragDropSupport="false"
+                                      multiple="true" sizeLimit="100000" fileLimit="3"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                        <p:tooltip for="avatarFile" value="Documento/Documentos" showEffect="clip" position="top" hideEffect="fold" />
+
+                        <p:fileUpload id="avatarCamera" chooseIcon="pi pi-fw pi-camera" label="#{none}" skinSimple="true"
+                                      style=" width: 50px" listener="#{fileUploadView.handleFileUpload}" 
+                                      mode="simple" dragDropSupport="false"
+                                      multiple="true" sizeLimit="100000" fileLimit="3"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                        <p:tooltip for="avatarCamera" value="Hacer foto/video" showEffect="clip" position="top" hideEffect="fold" />
                     </div>
-                    <div class="p-field">
-                        <span class="ui-float-label ui-input-icon-right">
-                            <input id="j_idt34" name="j_idt34" type="text" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" aria-readonly="false" aria-disabled="false">
-                                <label id="j_idt35" class="ui-outputlabel ui-widget" for="j_idt34">Right Icon</label>
-                                <i class="pi pi-spin pi-spinner"></i>
-                        </span>
-                    </div>
-                    <div class="p-field">
-                        <span class="ui-float-label">
-                            <input id="j_idt37" name="j_idt37" type="text" class="ui-inputfield ui-inputmask ui-widget ui-state-default ui-corner-all" inputmode="text" role="textbox" aria-readonly="false" aria-disabled="false">
-                                <label id="j_idt38" class="ui-outputlabel ui-widget" for="j_idt37">InputMask</label>
-                        </span>
-                    </div>
-                    <div class="p-field">
-                        <span class="ui-float-label">
-                            <span id="j_idt40" class="ui-inputnumber ui-widget">
-                                <input id="j_idt40_input" name="j_idt40_input" type="text" autocomplete="off" value="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" inputmode="decimal" role="textbox" aria-readonly="false" aria-disabled="false">
-                                    <input id="j_idt40_hinput" name="j_idt40_hinput" type="hidden" autocomplete="off" value="">
-                                        </span>
-                                        <label id="j_idt41" class="ui-outputlabel ui-widget" for="j_idt40_input">InputNumber</label>
-                                        </span>
-                                        </div>
-                                        </div>
-                                        <div class="p-col-12 p-md-6">
-                                            <div class="p-field">
-                                                <div class="ui-inputgroup">
-                                                    <span class="ui-inputgroup-addon">
-                                                        <i class="pi pi-user"></i>
-                                                    </span>
-                                                    <span class="ui-float-label" style="width: 100%"><input id="j_idt43" name="j_idt43" type="text" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" aria-readonly="false" aria-disabled="false">
-                                                            <label id="j_idt44" class="ui-outputlabel ui-widget" for="j_idt43">InputGroup</label>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="p-field">
-                                                <span class="ui-float-label"><span id="j_idt46" class="ui-autocomplete" role="application">
-                                                        <input id="j_idt46_input" name="j_idt46_input" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" autocomplete="off" role="textbox" aria-readonly="false" aria-disabled="false" aria-autocomplete="list">
-                                                            <span role="status" aria-live="polite" class="ui-autocomplete-status ui-helper-hidden-accessible">
-                                                            </span>
-                                                    </span>
-                                                    <label id="j_idt47" class="ui-outputlabel ui-widget" for="j_idt46_input">AutoComplete</label>
-                                                </span>
-                                            </div>
-                                            <div class="p-field">
-                                                <span class="ui-float-label"><span id="j_idt49" class="p-datepicker ui-calendar"><input id="j_idt49_input" name="j_idt49_input" type="text" class="ui-inputfield ui-widget ui-state-default ui-corner-all" role="textbox" aria-readonly="false" aria-disabled="false">
-                                                    </span>
-                                                    <label id="j_idt50" class="ui-outputlabel ui-widget" for="j_idt49_input">Datepicker</label>
-                                                </span>
-                                            </div>
-                                            <div class="p-field">
-                                                <span class="ui-float-label"><textarea id="j_idt52" name="j_idt52" class="ui-inputfield ui-inputtextarea ui-widget ui-state-default ui-corner-all ui-inputtextarea-resizable" cols="30" rows="3" maxlength="2147483647" role="textbox" aria-readonly="false" aria-disabled="false" aria-multiline="true" style="overflow-x: hidden; overflow-wrap: break-word; height: 70px;"></textarea><label id="j_idt53" class="ui-outputlabel ui-widget" for="j_idt52">Textarea</label>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        </div>
+                </div>
+            </h:form>
         </p:dialog>
     </ui:define>
 
-<!--    <ui:define name="cardPost">
-        <h:form id="formPost">
-            <p:dataView var="post" value="#{helpPController.posts}"
-                        gridIcon="pi pi-th-large" listIcon="pi pi-bars">
-
-                <p:dataViewGridItem>
-                    <p:panel header="#{post}" style="text-align:center">
-                        <h:panelGrid columns="1" style="width:100%">
-                            <p:graphicImage name="demo/images/car/#{post.brand}.gif"/> 
-
-                            <h:outputText value="#{car.brand}" />
-
+    <!--    <ui:define name="cardPost">
+            <h:form id="formPost">
+                <p:dataView var="post" value="#{helpPController.posts}"
+                            gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+    
+                    <p:dataViewGridItem>
+                        <p:panel header="#{post}" style="text-align:center">
+                            <h:panelGrid columns="1" style="width:100%">
+                                <p:graphicImage name="demo/images/car/#{post.brand}.gif"/> 
+    
+                                <h:outputText value="#{car.brand}" />
+    
+                                <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
+                                    <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
+                                    <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
+                                </p:commandLink>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataViewGridItem>
+    
+                    <p:dataViewListItem>
+                        <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
+                            <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" /> 
+    
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Id:" />
+                                    <h:outputText value="#{car.id}" style="font-weight: bold"/>
+    
+                                    <h:outputText value="Year:" />
+                                    <h:outputText value="#{car.year}" style="font-weight: bold"/>
+    
+                                    <h:outputText value="Color:" />
+                                    <h:outputText value="#{car.color}" style="font-weight: bold"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+    
                             <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
                                 <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
                                 <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
                             </p:commandLink>
                         </h:panelGrid>
-                    </p:panel>
-                </p:dataViewGridItem>
-
-                <p:dataViewListItem>
-                    <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
-                        <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" /> 
-
-                        <p:outputPanel>
-                            <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputText value="Id:" />
-                                <h:outputText value="#{car.id}" style="font-weight: bold"/>
-
-                                <h:outputText value="Year:" />
-                                <h:outputText value="#{car.year}" style="font-weight: bold"/>
-
-                                <h:outputText value="Color:" />
-                                <h:outputText value="#{car.color}" style="font-weight: bold"/>
-                            </h:panelGrid>
-                        </p:outputPanel>
-
-                        <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
-                            <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
-                            <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
-                        </p:commandLink>
-                    </h:panelGrid>
-                </p:dataViewListItem>
-            </p:dataView>
-
-            <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="carDetail" style="text-align:center;">
-                    <p:panelGrid  columns="2" rendered="#{not empty dataGridView.selectedCar}" columnClasses="label,value">
-                        <f:facet name="header">
-                            <p:graphicImage name="demo/images/car/#{dataGridView.selectedCar.brand}-big.gif"/> 
-                        </f:facet>
-
-                        <h:outputText value="Id:" />
-                        <h:outputText value="#{dataGridView.selectedCar.id}" />
-
-                        <h:outputText value="Year" />
-                        <h:outputText value="#{dataGridView.selectedCar.year}" />
-
-                        <h:outputText value="Color:" />
-                        <h:outputText value="#{dataGridView.selectedCar.color}" style="color:#{dataGridView.selectedCar.color}"/>
-
-                        <h:outputText value="Price" />
-                        <h:outputText value="$#{dataGridView.selectedCar.price}" />
-                    </p:panelGrid>
-                </p:outputPanel>
-            </p:dialog>
-        </h:form>-->
-
-        
-    </ui:define>
+                    </p:dataViewListItem>
+                </p:dataView>
+    
+                <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="carDetail" style="text-align:center;">
+                        <p:panelGrid  columns="2" rendered="#{not empty dataGridView.selectedCar}" columnClasses="label,value">
+                            <f:facet name="header">
+                                <p:graphicImage name="demo/images/car/#{dataGridView.selectedCar.brand}-big.gif"/> 
+                            </f:facet>
+    
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{dataGridView.selectedCar.id}" />
+    
+                            <h:outputText value="Year" />
+                            <h:outputText value="#{dataGridView.selectedCar.year}" />
+    
+                            <h:outputText value="Color:" />
+                            <h:outputText value="#{dataGridView.selectedCar.color}" style="color:#{dataGridView.selectedCar.color}"/>
+    
+                            <h:outputText value="Price" />
+                            <h:outputText value="$#{dataGridView.selectedCar.price}" />
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>-->
+    <!--
+            
+        </ui:define>-->
 </ui:composition>
