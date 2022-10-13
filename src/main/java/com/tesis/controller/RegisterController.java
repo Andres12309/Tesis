@@ -81,7 +81,9 @@ public class RegisterController implements Serializable {
             con.closeConnection();
 
         } catch (Exception e) {
-            //
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Se tuvo problemas para registrar usuario. Log " + e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            System.out.println(this.getClass().toString() + ".registrarUsuario " + e.getMessage());
         }
 
     }

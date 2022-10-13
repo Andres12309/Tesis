@@ -42,41 +42,51 @@ public class LoginController implements Serializable {
         this.usuario = usuario;
     }
 
-    public void iniciarSesion() {
-        String redirect = null;
+    public String iniciarSesion() {
         try {
             Conexion con = new Conexion(false);
             UsuarioFacade usuariofacade = new UsuarioFacade(con);
             usuario = usuariofacade.iniciarSesion(usuario);
-            
+
             FacesContext context = FacesContext.getCurrentInstance();
 
             if (usuario != null) {
-                context.getExternalContext().getSessionMap().put("loginController", usuario);
                 context.getExternalContext().redirect(urlIndex);
+                context.getExternalContext().getSessionMap().put("usuario", usuario);
                 con.closeConnection();
             } else {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Usuario Ingresado es incorrecto");
-                FacesContext.getCurrentInstance().addMessage(null, message);
+                context.addMessage(null, message);
                 con.closeConnection();
             }
+            
+            int id = VerificarSesion().getId();
             con.closeConnection();
         } catch (Exception e) {
-            //
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Se tuvo problemas para iniciar sesion. Log " + e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            System.out.println(this.getClass().toString() + ".iniciarSesion " + e.getMessage());
         }
+        
+        return "";
     }
-    
-    public void VerificarSesion(){
-        try{
+
+    public Usuario VerificarSesion() {
+        Usuario us = null;
+        try {
             FacesContext context = FacesContext.getCurrentInstance();
-            Usuario us = (Usuario) context.getExternalContext().getSessionMap().get("loginController");
-            
-            if(us == null){
+            us = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
+
+            if (us == null) {
                 context.getExternalContext().redirect(urlLogin);
             }
-        }catch(Exception e){
-            //
+        } catch (Exception e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Se tuvo problemas para verificar la session. Log " + e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            System.out.println(this.getClass().toString() + ".VerificarSesion " + e.getMessage());
         }
+        
+        return us;
     }
 
 }

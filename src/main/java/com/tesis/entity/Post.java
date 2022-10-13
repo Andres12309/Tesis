@@ -5,16 +5,22 @@
  */
 package com.tesis.entity;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import org.primefaces.model.StreamedContent;
 
 public class Post implements Serializable {
-    
+
     private Integer id;
     private Integer idUser;
     private String titulo;
     private String descripcion;
-    private String urlImagen;
+    private byte[] urlImagen;
     private String estado;
+    
+    private BufferedImage imgBuf;
+    private Image img;
 
     public Integer getId() {
         return id;
@@ -48,11 +54,11 @@ public class Post implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getUrlImagen() {
+    public byte[] getUrlImagen() {
         return urlImagen;
     }
 
-    public void setUrlImagen(String urlImagen) {
+    public void setUrlImagen(byte[] urlImagen) {
         this.urlImagen = urlImagen;
     }
 
@@ -63,6 +69,20 @@ public class Post implements Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-      
+
+    public BufferedImage getImgBuf() {
+        return imgBuf;
+    }
+
+    public void setImgBuf(BufferedImage imgBuf) {
+        this.imgBuf = imgBuf;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
+    public void setImg(Image img) {
+        this.img = img;
+    }
 }

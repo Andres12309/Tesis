@@ -1,12 +1,13 @@
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\controller\HelpPController.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\controller\RegisterController.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\facade\Conexion.java
-C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\facade\PostFacade.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\Mensaje.java
+C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\Utils\ConexionFirebase.java
+C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\Post.java
+C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\DetPost.java
+C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\facade\PostFacade.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\DetUsuario.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\Usuario.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\Chat.java
-C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\Post.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\facade\UsuarioFacade.java
 C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\controller\LoginController.java
-C:\Users\Personal\Desktop\TESIS AP\Proyecto\HelpPeopleSI\src\main\java\com\tesis\entity\DetPost.java

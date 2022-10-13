@@ -6,11 +6,22 @@
 package com.tesis.facade;
 
 import com.tesis.entity.Post;
-import com.tesis.entity.Usuario;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -24,11 +35,11 @@ public class PostFacade {
         this.con = con;
     }
 
-    public Boolean crearPost(Post post) {
+    public Boolean crearPost(Post post, UploadedFile file) {
 
         String query
                 = "INSERT INTO post ( \n"
-                + "     idUser,titulo,descripcion,urlImage, \n"
+                + "     idUser,titulo,descripcion,urlImagen, \n"
                 + "     estado) \n"
                 + "values ( \n"
                 + "     ?,?, \n"
@@ -42,7 +53,7 @@ public class PostFacade {
             st.setInt(1, post.getIdUser());
             st.setString(2, post.getTitulo());
             st.setString(3, post.getDescripcion());
-            st.setString(4, post.getUrlImagen());
+            st.setBinaryStream(4, file.getInputStream(), (int) file.getContent().length);
             st.setString(5, post.getEstado());
 
             st.executeUpdate();
@@ -62,7 +73,7 @@ public class PostFacade {
         }
     }
 
-    public List<Post> obtenerPostxUser(String idUser) {
+    public List<Post> obtenerPostxUser(int idUser) {
 
         String query
                 = "SELECT \n"
@@ -75,27 +86,42 @@ public class PostFacade {
                 + "FROM \n"
                 + "     post p \n"
                 + "where \n"
-                + "     p.usuario = ? \n"
-                + "     and p.estado = A \n";
+                + "     p.idUser = ? \n"
+                + "     and p.estado = ? ";
 
         PreparedStatement st = null;
         ResultSet rs = null;
+        Blob blob = null;
+
         try {
 
             List<Post> listPost = new ArrayList<>();
             Post post = null;
             st = con.getConnection().prepareStatement(query);
-            st.setString(1, idUser);
+            st.setInt(1, idUser);
+            st.setString(2, "A");
             rs = st.executeQuery();
 
             if (rs != null) {
                 while (rs.next()) {
                     post = new Post();
+
                     post.setId(rs.getInt("id"));
                     post.setIdUser(rs.getInt("idUser"));
                     post.setTitulo(rs.getString("titulo"));
                     post.setDescripcion(rs.getString("descripcion"));
-                    post.setUrlImagen(rs.getString("urlImage"));
+                    post.setUrlImagen(rs.getBytes("urlImagen"));
+                    blob = rs.getBlob("urlImagen");
+
+                    byte[] dataBlob = blob.getBytes(1, (int) blob.length());
+                    BufferedImage img = null;
+                    try {
+                        img = ImageIO.read(new ByteArrayInputStream(dataBlob));
+                    } catch (IOException ex) {
+                        Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    post.setImg(img);
                     post.setEstado(rs.getString("estado"));
                     listPost.add(post);
                 }

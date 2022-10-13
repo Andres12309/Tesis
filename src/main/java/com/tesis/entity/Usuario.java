@@ -5,7 +5,9 @@
  */
 package com.tesis.entity;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
 
     private Integer id;
     private String nombres;

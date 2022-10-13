@@ -21,6 +21,7 @@ public class UsuarioFacade {
 
         String query 
                 = "SELECT \n"
+                + "     u.id, \n"
                 + "     u.nombres, \n"
                 + "     u.apellidos, \n"
                 + "     u.usuario, \n"
@@ -44,6 +45,7 @@ public class UsuarioFacade {
             if (rs != null) {
                 while (rs.next()) {
                     us = new Usuario();
+                    us.setId(rs.getInt("id"));
                     us.setNombres(rs.getString("nombres"));
                     us.setApellidos(rs.getString("apellidos"));
                     us.setUsuario(rs.getString("usuario"));

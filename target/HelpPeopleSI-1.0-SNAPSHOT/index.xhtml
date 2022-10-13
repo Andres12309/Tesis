@@ -21,7 +21,7 @@
                 color: black;
                 box-shadow: none;
             }
-            
+
             span.ui-fileupload-choose > span.ui-icon-plusthick{
                 display: none !important;
             }
@@ -70,7 +70,7 @@
 
         <p:dialog styleClass="customDialog" minWidth="800" header="Crear Caso" widgetVar="dlg1" modal="true">
 
-            <h:form class="ui-outputpanel ui-widget" enctype="multipart/form-data" style=" background: aquamarine">
+            <h:form id="CrearPostForm" class="ui-outputpanel ui-widget" enctype="multipart/form-data" style=" background: aquamarine">
                 <br/>
                 <div class="p-field">
                     <span class="ui-float-label">
@@ -91,7 +91,7 @@
                     </div>
                     <div>
                         <p:fileUpload id="avatarImg"  chooseIcon="pi pi-images" label="#{none}"
-                                      style=" border: none; background-color: aquamarine" listener="#{fileUploadView.handleFileUpload}" 
+                                      style=" border: none; background-color: aquamarine" listener="#{helpPController.handleFileUpload}" 
                                       mode="advanced" dragDropSupport="false"
                                       multiple="true" sizeLimit="100000" fileLimit="3"
                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
@@ -112,78 +112,85 @@
                         <p:tooltip for="avatarCamera" value="Hacer foto/video" showEffect="clip" position="top" hideEffect="fold" />
                     </div>
                 </div>
+                <p:commandButton update="growl,CrearPostForm" actionListener="#{helpPController.crearPost()}" type="submit" style="margin: 5px" 
+                                 value="Publicar"/>
             </h:form>
         </p:dialog>
     </ui:define>
 
-    <!--    <ui:define name="cardPost">
-            <h:form id="formPost">
-                <p:dataView var="post" value="#{helpPController.posts}"
-                            gridIcon="pi pi-th-large" listIcon="pi pi-bars">
-    
-                    <p:dataViewGridItem>
-                        <p:panel header="#{post}" style="text-align:center">
-                            <h:panelGrid columns="1" style="width:100%">
-                                <p:graphicImage name="demo/images/car/#{post.brand}.gif"/> 
-    
-                                <h:outputText value="#{car.brand}" />
-    
-                                <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
-                                    <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
-                                    <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
-                                </p:commandLink>
-                            </h:panelGrid>
-                        </p:panel>
-                    </p:dataViewGridItem>
-    
-                    <p:dataViewListItem>
-                        <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
-                            <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" /> 
-    
-                            <p:outputPanel>
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{car.id}" style="font-weight: bold"/>
-    
-                                    <h:outputText value="Year:" />
-                                    <h:outputText value="#{car.year}" style="font-weight: bold"/>
-    
-                                    <h:outputText value="Color:" />
-                                    <h:outputText value="#{car.color}" style="font-weight: bold"/>
-                                </h:panelGrid>
-                            </p:outputPanel>
-    
+    <ui:define name="cardPost">
+        <h:form id="form">
+            <p:dataView var="post" value="#{helpPController.listPost}"
+                        gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+
+                <p:dataViewGridItem>
+                    <p:panel header="#{post.id}" style="text-align:center">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle">
+                                <p:graphicImage 
+                                    name="#{post.img}">
+                                    <f:param name="id" value="#{post.id}" />
+                                </p:graphicImage>
+
+                            </p:avatar>
+
+                            <h:outputText value="#{post.titulo}" />
+
                             <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
                                 <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
-                                <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
+                                <f:setPropertyActionListener value="#{post}" target="#{dataGridView.selectedCar}" />
                             </p:commandLink>
                         </h:panelGrid>
-                    </p:dataViewListItem>
-                </p:dataView>
-    
-                <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                    <p:outputPanel id="carDetail" style="text-align:center;">
-                        <p:panelGrid  columns="2" rendered="#{not empty dataGridView.selectedCar}" columnClasses="label,value">
-                            <f:facet name="header">
-                                <p:graphicImage name="demo/images/car/#{dataGridView.selectedCar.brand}-big.gif"/> 
-                            </f:facet>
-    
-                            <h:outputText value="Id:" />
-                            <h:outputText value="#{dataGridView.selectedCar.id}" />
-    
-                            <h:outputText value="Year" />
-                            <h:outputText value="#{dataGridView.selectedCar.year}" />
-    
-                            <h:outputText value="Color:" />
-                            <h:outputText value="#{dataGridView.selectedCar.color}" style="color:#{dataGridView.selectedCar.color}"/>
-    
-                            <h:outputText value="Price" />
-                            <h:outputText value="$#{dataGridView.selectedCar.price}" />
-                        </p:panelGrid>
-                    </p:outputPanel>
-                </p:dialog>
-            </h:form>-->
-    <!--
-            
-        </ui:define>-->
+                    </p:panel>
+                </p:dataViewGridItem>
+
+                <p:dataViewListItem>
+                    <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
+                        <p:graphicImage value="#{post.img.getScaledInstance(50, 50, hints)}">
+                        </p:graphicImage>
+
+                        <p:outputPanel>
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Id:" />
+                                <h:outputText value="#{post.id}" style="font-weight: bold"/>
+
+                                <h:outputText value="Titulo:" />
+                                <h:outputText value="#{post.titulo}" style="font-weight: bold"/>
+
+                                <h:outputText value="Descripcion" />
+                                <h:outputText value="#{post.descripcion}" style="font-weight: bold"/>
+                            </h:panelGrid>
+                        </p:outputPanel>
+
+                        <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
+                            <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
+                            <f:setPropertyActionListener value="#{post}" target="#{dataGridView.selectedCar}" />
+                        </p:commandLink>
+                    </h:panelGrid>
+                </p:dataViewListItem>
+            </p:dataView>
+
+            <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="carDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty dataGridView.selectedCar}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <p:graphicImage name="demo/images/car/#{dataGridView.selectedCar.brand}-big.gif"/> 
+                        </f:facet>
+
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{dataGridView.selectedCar.id}" />
+
+                        <h:outputText value="Year" />
+                        <h:outputText value="#{dataGridView.selectedCar.year}" />
+
+                        <h:outputText value="Color:" />
+                        <h:outputText value="#{dataGridView.selectedCar.color}" style="color:#{dataGridView.selectedCar.color}"/>
+
+                        <h:outputText value="Price" />
+                        <h:outputText value="$#{dataGridView.selectedCar.price}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </ui:define>
 </ui:composition>
