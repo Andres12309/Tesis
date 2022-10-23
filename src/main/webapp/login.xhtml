@@ -1,26 +1,29 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Login</title>
-    </h:head>
-    <h:body>
-        <h:form id="LoginForm" style="position: absolute; left: 50%; top: 50%;transform: translate(-50%,-50%); height: 100%">
-            <p:growl id="growl" showDetail="true" sticky="true" />
-            
-            <p:panelGrid id="panelLogin" columns="2">
-                <p:outputLabel for="txtUsuario" value="Usuario"/>
-                <p:inputText id="txtUsuario" required="true" value="#{loginController.usuario.usuario}"/>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">
+        Login
+    </ui:define>
 
-                <p:outputLabel for="txtClave" value="Contraseña"/>
-                <p:password id="txtClave" required="true" value="#{loginController.usuario.clave}"/>
+    <ui:define name="contentLogin">
+            <h:form id="LoginForm" style="position: absolute; left: 50%; top: 50%;transform: translate(-50%,-50%)">
+                <p:growl id="growl" showDetail="true" sticky="true" />
 
-                <h:column/>
-                <p:commandButton update="growl,LoginForm:panelLogin" icon="pi pi-fw pi-key" value="Ingresar" actionListener="#{loginController.iniciarSesion()}"/>
+                <p:panelGrid id="panelLogin" columns="2">
+                    <p:outputLabel for="txtUsuario" value="Usuario"/>
+                    <p:inputText id="txtUsuario" required="true" value="#{loginController.usuario.usuario}"/>
 
-            </p:panelGrid>
-        </h:form>
-    </h:body>
-</html>
+                    <p:outputLabel for="txtClave" value="Contraseña"/>
+                    <p:password id="txtClave" required="true" value="#{loginController.usuario.clave}"/>
+
+                    <h:column/>
+                    <p:commandButton update="growl,LoginForm:panelLogin" icon="pi pi-fw pi-key" value="Ingresar" actionListener="#{loginController.iniciarSesion()}"/>
+
+                </p:panelGrid>
+            </h:form>
+    </ui:define>
+</ui:composition>

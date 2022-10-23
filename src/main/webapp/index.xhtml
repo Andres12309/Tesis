@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml"
+                template="/template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="head">
@@ -29,95 +29,13 @@
                 padding-left: 1em !important;
             }
         </style>
+        <script type="text/javascript">
+            
+        </script>
     </ui:define>
 
     <ui:define name="title">Data</ui:define>
-
-    <ui:define name="content">
-        <h:form id="PrincipalForm">
-
-            <p:menubar style="border: none; background: none;">
-
-                <p:menuitem style="text-align: center">
-                    <div>
-                        <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle">
-                            <p:graphicImage 
-                                url="https://c8.alamy.com/compes/kbdjeh/linea-manos-con-el-simbolo-de-la-medicina-del-corazon-para-ayudar-a-la-gente-kbdjeh.jpg"/>
-                        </p:avatar>
-                    </div>
-                    <b>HelpPeople S.I</b>
-                </p:menuitem>
-
-                <p:menuitem  value="Ubicacion" icon="pi pi-fw pi-map-marker"/>
-
-                <p:menuitem value="Acerca de" icon="pi pi-fw pi-info-circle"/>
-
-                <p:menuitem onclick="PF('dlg1').show();" style="margin: 35px" 
-                            value="Publicar mi caso" icon="pi pi-fw pi-star-fill"/>
-
-                <f:facet name="options">
-                    <div class="ui-input-icon-left p-mr-2">
-                        <i class="pi pi-fw pi-search" />
-                        <p:inputText placeholder="Search"/>
-                    </div>
-                    <p:commandButton action="#{helpPController.iniciarSesion()}" style="margin: 35px" 
-                                     value="Iniciar sesión" icon="pi pi-fw pi-sign-in"/>
-                    <p:commandButton action="#{helpPController.registrase()}" style="margin: 35px" 
-                                     value="Registrarse" icon="pi pi-fw pi-user-edit"/>
-                </f:facet>
-            </p:menubar>
-        </h:form>
-
-        <p:dialog styleClass="customDialog" minWidth="800" header="Crear Caso" widgetVar="dlg1" modal="true">
-
-            <h:form id="CrearPostForm" class="ui-outputpanel ui-widget" enctype="multipart/form-data" style=" background: aquamarine">
-                <br/>
-                <div class="p-field">
-                    <span class="ui-float-label">
-                        <p:inputText id="txtTitulo" value="#{helpPController.post.titulo}" required="true" style="border: none; text-transform:uppercase; font-size: 20px; font-style: italic; width: 500px; background: aquamarine; color: purple"/>
-                        <p:outputLabel for="@previous" value="¿Puedes ponerle un distintivo a tu solicitud?" style=" color: grey; font-size: 20px"/>
-                    </span>
-                </div>
-                <br/>
-                <div class="p-field">
-                    <span class="ui-float-label">
-                        <p:inputTextarea id="txtDescrip" value="#{helpPController.post.descripcion}" required="true" style=" border: none;font-size: 20px; font-style: italic; width: 500px; background: aquamarine;; color: purple"/>
-                        <p:outputLabel for="@previous" value="Relata tu caso para que los colaboradores simpatizen contigo." style=" color: grey; font-size: 20px" />
-                    </span>
-                </div>
-                <div style=" text-align: center">
-                    <div>
-                        <p:outputLabel value="Agrega a tu publicacion" style="margin-bottom: 10px ;font-weight: bold; color: grey; font-size: 20px" />
-                    </div>
-                    <div>
-                        <p:fileUpload id="avatarImg"  chooseIcon="pi pi-images" label="#{none}"
-                                      style=" border: none; background-color: aquamarine" listener="#{helpPController.handleFileUpload}" 
-                                      mode="advanced" dragDropSupport="false"
-                                      multiple="true" sizeLimit="100000" fileLimit="3"
-                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
-                        <p:tooltip for="avatarImg" value="Imagenes/videos" showEffect="clip" position="top" hideEffect="fold" />
-
-                        <p:fileUpload id="avatarFile" chooseIcon="pi pi-fw pi-file" label="#{none}" skinSimple="true"
-                                      style=" width: 50px" listener="#{fileUploadView.handleFileUpload}" 
-                                      mode="simple" dragDropSupport="false"
-                                      multiple="true" sizeLimit="100000" fileLimit="3"
-                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
-                        <p:tooltip for="avatarFile" value="Documento/Documentos" showEffect="clip" position="top" hideEffect="fold" />
-
-                        <p:fileUpload id="avatarCamera" chooseIcon="pi pi-fw pi-camera" label="#{none}" skinSimple="true"
-                                      style=" width: 50px" listener="#{fileUploadView.handleFileUpload}" 
-                                      mode="simple" dragDropSupport="false"
-                                      multiple="true" sizeLimit="100000" fileLimit="3"
-                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
-                        <p:tooltip for="avatarCamera" value="Hacer foto/video" showEffect="clip" position="top" hideEffect="fold" />
-                    </div>
-                </div>
-                <p:commandButton update="growl,CrearPostForm" actionListener="#{helpPController.crearPost()}" type="submit" style="margin: 5px" 
-                                 value="Publicar"/>
-            </h:form>
-        </p:dialog>
-    </ui:define>
-
+    
     <ui:define name="cardPost">
         <h:form id="form">
             <p:dataView var="post" value="#{helpPController.listPost}"

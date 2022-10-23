@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template1.xhtml">
+                template="/template.xhtml">
 
     <ui:define name="head">
 <!--        <style type="text/css">
@@ -15,19 +15,7 @@
     </ui:define>
 
     <ui:define name="regGeneral">
-        <div style="position: absolute; left: 50%; top: 50%;transform: translate(-50%,-50%); height: 100%">
-
-            <h:form id="RegGeneralForm">
-
-                <div style="text-align: center">
-                    <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle">
-                        <p:graphicImage 
-                            url="https://c8.alamy.com/compes/kbdjeh/linea-manos-con-el-simbolo-de-la-medicina-del-corazon-para-ayudar-a-la-gente-kbdjeh.jpg"/>
-                    </p:avatar>
-                </div>
-                <div style="text-align: center">
-                    <b>HelpPeople S.I</b>
-                </div>
+            <h:form id="RegGeneralForm" style="position: absolute; left: 50%; top: 50%;transform: translate(-50%,-50%); overflow: scroll; height: 65%;flex-wrap: wrap;">
                 <p:panelGrid id="panelRegGeneral" columns="2" styleClass="ui-noborder">
                     <p:outputLabel for="txtNombres" value="Nombres" style="border: none"/>
                     <p:inputText id="txtNombres" required="true" value="#{registerController.usuario.nombres}" requiredMessage="Campo nombres requerido"/>
@@ -93,8 +81,6 @@
                                       actionListener="#{registerController.registrarUsuario()}"/>
                 </p:panelGrid>
             </h:form>
-        </div>
-
     </ui:define>
 
 </ui:composition>

@@ -19,9 +19,10 @@ public class Conexion {
 //    private String usernameP = "tercon";
 //    private String passwordP = "tercon";
     //TALLER
-    private String servidorMYSQL = "jdbc:mysql://mysql-andres.alwaysdata.net:3306/andres_helppeople?zeroDateTimeBehavior=convertToNull";
-    private String username = "andres";
-    private String password = "linuxhack1@";
+//    private String servidorMYSQL = "jdbc:mysql://mysql-andres.alwaysdata.net:3306/andres_helppeople?zeroDateTimeBehavior=convertToNull";
+    private String servidorMYSQL = "jdbc:mysql://localhost:3306/helppeople";
+    private String username = "root";
+    private String password = "";
 
     private Connection connection;
     private Boolean taller;

@@ -49,7 +49,8 @@ public class HelpPController implements Serializable {
         Conexion con = new Conexion(false);
 //        UsuarioFacade usuariofacade = new UsuarioFacade(con);
 //        usuario = usuariofacade.iniciarSesion(usuario);
-        obtenerPost();
+        obtenerPosts();
+
 //        listPost = postFacade.obtenerPostxUser(getSesion().getUsuario().getId().toString());
         con.closeConnection();
     }
@@ -84,6 +85,15 @@ public class HelpPController implements Serializable {
 
     public void setFileView(StreamedContent fileView) {
         this.fileView = fileView;
+    }
+
+    public void inicio() {
+//        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "login.xhtml");
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(HelpPController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void iniciarSesion() {
@@ -137,7 +147,26 @@ public class HelpPController implements Serializable {
         }
     }
 
-    public void obtenerPost() {
+    public void obtenerPosts() {
+        Conexion con = new Conexion(false);
+
+        try {
+            PostFacade postFacade = new PostFacade(con);
+            listPost = postFacade.obtenerPosts();
+
+//                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se encontraron las siguientes publicaciones");
+//                FacesContext.getCurrentInstance().addMessage(null, message);
+            con.closeConnection();
+
+        } catch (Exception e) {
+            con.closeConnection();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Se tuvo problemas para cargar post. Log " + e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            System.out.println(this.getClass().toString() + ".obtenerPost " + e.getMessage());
+        }
+    }
+
+    public void obtenerPostUserLog() {
         Conexion con = new Conexion(false);
 
         try {
@@ -145,8 +174,8 @@ public class HelpPController implements Serializable {
             if (getSesion().getId() != 0 || getSesion().getId() != null) {
                 listPost = postFacade.obtenerPostxUser(getSesion().getId());
 
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se encontraron las siguientes publicaciones");
-                FacesContext.getCurrentInstance().addMessage(null, message);
+//                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se encontraron las siguientes publicaciones");
+//                FacesContext.getCurrentInstance().addMessage(null, message);
             }
 
             con.closeConnection();
@@ -164,11 +193,11 @@ public class HelpPController implements Serializable {
     }
 
     public byte[] getChartAsByteArray() throws IOException {
-        
+
         return listPost.get(0).getUrlImagen();
     }
 
-    private Usuario getSesion() {
+    public Usuario getSesion() {
         FacesContext context = FacesContext.getCurrentInstance();
         Usuario us = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
 

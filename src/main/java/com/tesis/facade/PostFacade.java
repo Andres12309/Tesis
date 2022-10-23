@@ -144,4 +144,64 @@ public class PostFacade {
             }
         }
     }
+    
+    public List<Post> obtenerPosts() {
+
+        String query
+                = "SELECT \n"
+                + "     p.id, \n"
+                + "     p.idUser, \n"
+                + "     p.titulo, \n"
+                + "     p.descripcion, \n"
+                + "     p.urlImagen, \n"
+                + "     p.estado \n"
+                + "FROM \n"
+                + "     post p \n"
+                + "where \n"
+                + "     and p.estado = ? ";
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Blob blob = null;
+
+        try {
+
+            List<Post> listPost = new ArrayList<>();
+            Post post = null;
+            st = con.getConnection().prepareStatement(query);
+            st.setString(2, "A");
+            rs = st.executeQuery();
+
+            if (rs != null) {
+                while (rs.next()) {
+                    post = new Post();
+
+                    post.setId(rs.getInt("id"));
+                    post.setIdUser(rs.getInt("idUser"));
+                    post.setTitulo(rs.getString("titulo"));
+                    post.setDescripcion(rs.getString("descripcion"));
+                    post.setUrlImagen(rs.getBytes("urlImagen"));
+                    blob = rs.getBlob("urlImagen");
+                    post.setEstado(rs.getString("estado"));
+                    listPost.add(post);
+                }
+            }
+
+            return listPost;
+        } catch (Exception e) {
+            System.out.println(this.getClass().toString() + ".obtenerPosts " + e.getMessage());
+            return null;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+            } catch (Exception e) {
+                System.out.println(this.getClass().toString() + ".obtenerPosts " + e.getMessage());
+            }
+        }
+    }
 }

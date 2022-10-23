@@ -60,7 +60,7 @@ public class LoginController implements Serializable {
                 con.closeConnection();
             }
             
-            int id = VerificarSesion().getId();
+            //int id = VerificarSesion().getId();
             con.closeConnection();
         } catch (Exception e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Se tuvo problemas para iniciar sesion. Log " + e.getMessage());
@@ -71,7 +71,7 @@ public class LoginController implements Serializable {
         return "";
     }
 
-    public Usuario VerificarSesion() {
+    public Usuario getVerificarSesion() {
         Usuario us = null;
         try {
             FacesContext context = FacesContext.getCurrentInstance();
