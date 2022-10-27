@@ -12,6 +12,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +25,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.file.UploadedFile;
+import org.primefaces.shaded.commons.io.IOUtils;
 
 /**
  *
@@ -36,14 +40,14 @@ public class PostFacade {
     }
 
     public Boolean crearPost(Post post, UploadedFile file) {
-
+        String ruta = "C:\\Users\\JAMP\\Desktop\\TESIS_FINAL\\Tesis\\src\\main\\webapp\\images";
         String query
                 = "INSERT INTO post ( \n"
                 + "     idUser,titulo,descripcion,urlImagen, \n"
-                + "     estado) \n"
+                + "     imagen, estado) \n"
                 + "values ( \n"
                 + "     ?,?, \n"
-                + "     ?,?,? )\n";
+                + "     ?,?,?,? )\n";
 
         PreparedStatement st = null;
         try {
@@ -53,10 +57,14 @@ public class PostFacade {
             st.setInt(1, post.getIdUser());
             st.setString(2, post.getTitulo());
             st.setString(3, post.getDescripcion());
-            st.setBinaryStream(4, file.getInputStream(), (int) file.getContent().length);
-            st.setString(5, post.getEstado());
+            st.setBinaryStream(4, file.getInputStream());
+            st.setString(5, file.getFileName());
+            st.setString(6, post.getEstado());
 
             st.executeUpdate();
+            
+            Path path = Paths.get(ruta,file.getFileName());
+            Files.write(path, IOUtils.toByteArray( file.getInputStream()));
 
             return true;
         } catch (Exception e) {
@@ -154,34 +162,34 @@ public class PostFacade {
                 + "     p.titulo, \n"
                 + "     p.descripcion, \n"
                 + "     p.urlImagen, \n"
+                + "     p.imagen, \n"
                 + "     p.estado \n"
                 + "FROM \n"
                 + "     post p \n"
                 + "where \n"
-                + "     and p.estado = ? ";
+                + "     p.estado = ? ";
 
         PreparedStatement st = null;
         ResultSet rs = null;
         Blob blob = null;
 
         try {
-
             List<Post> listPost = new ArrayList<>();
             Post post = null;
             st = con.getConnection().prepareStatement(query);
-            st.setString(2, "A");
+            st.setString(1, "A");
             rs = st.executeQuery();
 
             if (rs != null) {
                 while (rs.next()) {
                     post = new Post();
-
+                    
                     post.setId(rs.getInt("id"));
                     post.setIdUser(rs.getInt("idUser"));
                     post.setTitulo(rs.getString("titulo"));
                     post.setDescripcion(rs.getString("descripcion"));
                     post.setUrlImagen(rs.getBytes("urlImagen"));
-                    blob = rs.getBlob("urlImagen");
+                    post.setImagen(rs.getString("imagen"));
                     post.setEstado(rs.getString("estado"));
                     listPost.add(post);
                 }

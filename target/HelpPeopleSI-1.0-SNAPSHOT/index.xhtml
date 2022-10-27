@@ -1,4 +1,4 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -45,8 +45,7 @@
                     <p:panel header="#{post.id}" style="text-align:center">
                         <h:panelGrid columns="1" style="width:100%">
                             <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle">
-                                <p:graphicImage 
-                                    name="#{post.img}">
+                                <p:graphicImage url="images/#{post.imagen}">
                                     <f:param name="id" value="#{post.id}" />
                                 </p:graphicImage>
 
@@ -63,10 +62,9 @@
                 </p:dataViewGridItem>
 
                 <p:dataViewListItem>
-                    <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
-                        <p:graphicImage value="#{post.img.getScaledInstance(50, 50, hints)}">
+                    <h:panelGrid columns="3" columnClasses="logo,detail">
+                        <p:graphicImage url="images/#{post.imagen}" width="80px">
                         </p:graphicImage>
-
                         <p:outputPanel>
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputText value="Id:" />
@@ -81,7 +79,7 @@
                         </p:outputPanel>
 
                         <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
-                            <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
+                            <h:outputText styleClass="ui-icon pi pi-search"/>
                             <f:setPropertyActionListener value="#{post}" target="#{dataGridView.selectedCar}" />
                         </p:commandLink>
                     </h:panelGrid>

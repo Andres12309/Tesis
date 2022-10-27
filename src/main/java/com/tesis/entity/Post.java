@@ -17,6 +17,7 @@ public class Post implements Serializable {
     private String titulo;
     private String descripcion;
     private byte[] urlImagen;
+    private String imagen;
     private String estado;
     
     private BufferedImage imgBuf;
@@ -84,5 +85,13 @@ public class Post implements Serializable {
 
     public void setImg(Image img) {
         this.img = img;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

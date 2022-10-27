@@ -122,23 +122,24 @@
                     </div>
                     <div>
                         <p:fileUpload id="avatarImg"  chooseIcon="pi pi-images" label="#{none}"
-                                      style=" border: none; background-color: aquamarine" listener="#{helpPController.handleFileUpload}" 
+                                      style=" border: none; background-color: aquamarine" 
+                                      listener="#{helpPController.handleFileUpload}" 
                                       mode="advanced" dragDropSupport="false"
-                                      multiple="true" sizeLimit="100000" fileLimit="3"
+                                      multiple="true" fileLimit="3"
                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                         <p:tooltip for="avatarImg" value="Imagenes/videos" showEffect="clip" position="top" hideEffect="fold" />
 
                         <p:fileUpload id="avatarFile" chooseIcon="pi pi-fw pi-file" label="#{none}" skinSimple="true"
                                       style=" width: 50px" listener="#{fileUploadView.handleFileUpload}" 
                                       mode="simple" dragDropSupport="false"
-                                      multiple="true" sizeLimit="100000" fileLimit="3"
+                                      multiple="true" fileLimit="3"
                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                         <p:tooltip for="avatarFile" value="Documento/Documentos" showEffect="clip" position="top" hideEffect="fold" />
 
                         <p:fileUpload id="avatarCamera" chooseIcon="pi pi-fw pi-camera" label="#{none}" skinSimple="true"
                                       style=" width: 50px" listener="#{fileUploadView.handleFileUpload}" 
                                       mode="simple" dragDropSupport="false"
-                                      multiple="true" sizeLimit="100000" fileLimit="3"
+                                      multiple="true" fileLimit="3"
                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                         <p:tooltip for="avatarCamera" value="Hacer foto/video" showEffect="clip" position="top" hideEffect="fold" />
                     </div>
